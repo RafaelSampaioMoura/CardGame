@@ -1,6 +1,27 @@
 import React, { Component } from 'react';
+// import Form from './Form';
 
 export class Card extends Component {
+  //   constructor(props) {
+  //     super(props);
+
+  //     this.handleChange = this.handleChange.bind(this);
+  //     this.state = {
+  //       nome: '',
+  //       descrição: '',
+  //       atributoUm: '',
+  //       atributoDois: '',
+  //       atributoTres: '',
+  //     };
+  //   }
+
+  //   handleChange({ target }) {
+  //     const { name, value } = target;
+  //     this.setState(() => ({
+  //       [name]: value,
+  //     }));
+  //   }
+
   render() {
     const {
       cardName,
@@ -12,6 +33,7 @@ export class Card extends Component {
       cardRare,
       cardTrunfo,
     } = this.props;
+
     return (
       <div>
         <h1 data-testid='name-card'>{cardName}</h1>
@@ -21,7 +43,7 @@ export class Card extends Component {
         <p data-testid='attr2-card'>{cardAttr2}</p>
         <p data-testid='attr3-card'>{cardAttr3}</p>
         <p data-testid='rare-card'>{cardRare}</p>
-        {cardTrunfo && <p data-testid='trunfo-card'>Super Trunfo</p>}
+        {cardTrunfo && <p data-testid='trunfo-card'>Super Trunfo</p>}{' '}
       </div>
     );
   }
