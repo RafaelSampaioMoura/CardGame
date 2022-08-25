@@ -8,6 +8,7 @@ class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
 
     this.state = {
       nome: '',
@@ -26,12 +27,15 @@ class App extends React.Component {
   }
 
   handleSubmit(values) {
-    const { trunfo } = this.state;
-    if (trunfo) {
+    const { trunfo, temTrunfo } = this.state;
+
+    if (trunfo && !temTrunfo) {
       this.setState({
         temTrunfo: true,
+        trunfo: false,
       });
     }
+
     this.setState(
       (prevState) => ({
         savedCards: [...prevState.savedCards, values],
@@ -47,8 +51,22 @@ class App extends React.Component {
           raridade: '',
           hasCards: true,
         });
-      }
+      },
     );
+  }
+
+  handleDelete(carta) {
+    if (carta.cardTrunfo) {
+      this.setState({
+        temTrunfo: false,
+      });
+
+      this.setState((prevState) => ({
+        savedCards: prevState.savedCards.filter(
+          (card) => card.cardName !== carta.cardName,
+        ),
+      }));
+    }
   }
 
   handleChange({ target }) {
@@ -70,21 +88,22 @@ class App extends React.Component {
           atributoTres,
         } = this.state;
 
-        const attSum =
-          Number(atributoUm) + Number(atributoDois) + Number(atributoTres);
-
+        const attSum = Number(atributoUm) + Number(atributoDois) + Number(atributoTres);
+        const minValue = 0;
+        const maxValue = 90;
+        const maxSum = 210;
         if (
-          nome &&
-          descrição &&
-          atributoUm >= 0 &&
-          atributoUm <= 90 &&
-          atributoDois >= 0 &&
-          atributoDois <= 90 &&
-          atributoTres >= 0 &&
-          atributoTres <= 90 &&
-          attSum <= 210 &&
-          raridade &&
-          imagem
+          nome
+          && descrição
+          && atributoUm >= minValue
+          && atributoUm <= maxValue
+          && atributoDois >= minValue
+          && atributoDois <= maxValue
+          && atributoTres >= minValue
+          && atributoTres <= maxValue
+          && attSum <= maxSum
+          && raridade
+          && imagem
         ) {
           this.setState({
             formValid: false,
@@ -94,7 +113,7 @@ class App extends React.Component {
             formValid: true,
           });
         }
-      }
+      },
     );
   }
 
@@ -110,6 +129,8 @@ class App extends React.Component {
       trunfo,
       formValid,
       temTrunfo,
+      hasCards,
+      savedCards,
     } = this.state;
 
     return (
@@ -117,49 +138,53 @@ class App extends React.Component {
         {/* <pre>{JSON.stringify(this.state, undefined, 2)}</pre> */}
         <h1>Tryunfo</h1>
         <Form
-          cardName={nome}
-          cardDescription={descrição}
-          cardAttr1={atributoUm}
-          cardAttr2={atributoDois}
-          cardAttr3={atributoTres}
-          cardImage={imagem}
-          cardRare={raridade}
-          cardTrunfo={trunfo}
-          hasTrunfo={temTrunfo}
-          isSaveButtonDisabled={formValid}
-          onInputChange={this.handleChange}
-          onSaveButtonClick={this.handleSubmit}
+          cardName={ nome }
+          cardDescription={ descrição }
+          cardAttr1={ atributoUm }
+          cardAttr2={ atributoDois }
+          cardAttr3={ atributoTres }
+          cardImage={ imagem }
+          cardRare={ raridade }
+          cardTrunfo={ trunfo }
+          hasTrunfo={ temTrunfo }
+          isSaveButtonDisabled={ formValid }
+          onInputChange={ this.handleChange }
+          onSaveButtonClick={ this.handleSubmit }
         />
         <Card
-          cardName={nome}
-          cardDescription={descrição}
-          cardAttr1={atributoUm}
-          cardAttr2={atributoDois}
-          cardAttr3={atributoTres}
-          cardImage={imagem}
-          cardRare={raridade}
-          cardTrunfo={trunfo}
+          cardName={ nome }
+          cardDescription={ descrição }
+          cardAttr1={ atributoUm }
+          cardAttr2={ atributoDois }
+          cardAttr3={ atributoTres }
+          cardImage={ imagem }
+          cardRare={ raridade }
+          cardTrunfo={ trunfo }
         />
-        {this.state.hasCards && (
+        <h1>Cartas Salvas</h1>
+        {hasCards && (
           <div>
-            <h1>Cartas Salvas</h1>
-            {this.state.savedCards.map((card) => {
-              return (
-                <div key={card.cardName}>
-                  <Card
-                    cardName={card.cardName}
-                    cardDescription={card.cardDescription}
-                    cardAttr1={card.cardAttr1}
-                    cardAttr2={card.cardAttr2}
-                    cardAttr3={card.cardAttr3}
-                    cardImage={card.cardImage}
-                    cardRare={card.cardRare}
-                    cardTrunfo={card.cardTrunfo}
-                  />
-                  <button onClick={() => {}}>Remover Carta</button>
-                </div>
-              );
-            })}
+            {savedCards.map((card) => (
+              <div key={ card.cardName }>
+                <Card
+                  cardName={ card.cardName }
+                  cardDescription={ card.cardDescription }
+                  cardAttr1={ card.cardAttr1 }
+                  cardAttr2={ card.cardAttr2 }
+                  cardAttr3={ card.cardAttr3 }
+                  cardImage={ card.cardImage }
+                  cardRare={ card.cardRare }
+                  cardTrunfo={ card.cardTrunfo }
+                />
+                <button
+                  type="button"
+                  data-testid="delete-button"
+                  onClick={ () => this.handleDelete(card) }
+                >
+                  Excluir
+                </button>
+              </div>
+            ))}
           </div>
         )}
       </div>
