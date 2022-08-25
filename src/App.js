@@ -18,6 +18,7 @@ class App extends React.Component {
       imagem: '',
       raridade: '',
       trunfo: false,
+      temTrunfo: false,
       formValid: true,
       savedCards: [],
       hasCards: false,
@@ -25,6 +26,12 @@ class App extends React.Component {
   }
 
   handleSubmit(values) {
+    const { trunfo } = this.state;
+    if (trunfo) {
+      this.setState({
+        temTrunfo: true,
+      });
+    }
     this.setState(
       (prevState) => ({
         savedCards: [...prevState.savedCards, values],
@@ -38,7 +45,6 @@ class App extends React.Component {
           atributoTres: 0,
           imagem: '',
           raridade: '',
-          trunfo: false,
           hasCards: true,
         });
       }
@@ -64,7 +70,8 @@ class App extends React.Component {
           atributoTres,
         } = this.state;
 
-        const attSum = Number(atributoUm) + Number(atributoDois) + Number(atributoTres);
+        const attSum =
+          Number(atributoUm) + Number(atributoDois) + Number(atributoTres);
 
         if (
           nome &&
@@ -102,6 +109,7 @@ class App extends React.Component {
       raridade,
       trunfo,
       formValid,
+      temTrunfo,
     } = this.state;
 
     return (
@@ -117,6 +125,7 @@ class App extends React.Component {
           cardImage={imagem}
           cardRare={raridade}
           cardTrunfo={trunfo}
+          hasTrunfo={temTrunfo}
           isSaveButtonDisabled={formValid}
           onInputChange={this.handleChange}
           onSaveButtonClick={this.handleSubmit}
