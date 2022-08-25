@@ -126,6 +126,7 @@ class Form extends Component {
               id='super-trunfo'
             />
           </label>
+
           <button
             onClick={() =>
               onSaveButtonClick({

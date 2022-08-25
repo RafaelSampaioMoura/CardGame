@@ -12,13 +12,13 @@ class App extends React.Component {
     this.state = {
       nome: '',
       descrição: '',
-      atributoUm: '',
-      atributoDois: '',
-      atributoTres: '',
+      atributoUm: 0,
+      atributoDois: 0,
+      atributoTres: 0,
       imagem: '',
       raridade: '',
       trunfo: false,
-      formValid: false,
+      formValid: true,
       savedCards: [],
       hasCards: false,
     };
@@ -33,9 +33,9 @@ class App extends React.Component {
         this.setState({
           nome: '',
           descrição: '',
-          atributoUm: '0',
-          atributoDois: '0',
-          atributoTres: '0',
+          atributoUm: 0,
+          atributoDois: 0,
+          atributoTres: 0,
           imagem: '',
           raridade: '',
           trunfo: false,
@@ -49,9 +49,46 @@ class App extends React.Component {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
-    this.setState({
-      [name]: value,
-    });
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        const {
+          nome,
+          descrição,
+          imagem,
+          raridade,
+          atributoUm,
+          atributoDois,
+          atributoTres,
+        } = this.state;
+
+        const attSum = Number(atributoUm) + Number(atributoDois) + Number(atributoTres);
+
+        if (
+          nome &&
+          descrição &&
+          atributoUm >= 0 &&
+          atributoUm <= 90 &&
+          atributoDois >= 0 &&
+          atributoDois <= 90 &&
+          atributoTres >= 0 &&
+          atributoTres <= 90 &&
+          attSum <= 210 &&
+          raridade &&
+          imagem
+        ) {
+          this.setState({
+            formValid: false,
+          });
+        } else {
+          this.setState({
+            formValid: true,
+          });
+        }
+      }
+    );
   }
 
   render() {
@@ -64,6 +101,7 @@ class App extends React.Component {
       imagem,
       raridade,
       trunfo,
+      formValid,
     } = this.state;
 
     return (
@@ -79,6 +117,7 @@ class App extends React.Component {
           cardImage={imagem}
           cardRare={raridade}
           cardTrunfo={trunfo}
+          isSaveButtonDisabled={formValid}
           onInputChange={this.handleChange}
           onSaveButtonClick={this.handleSubmit}
         />
@@ -97,17 +136,19 @@ class App extends React.Component {
             <h1>Cartas Salvas</h1>
             {this.state.savedCards.map((card) => {
               return (
-                <Card
-                  key={card.cardName}
-                  cardName={card.cardName}
-                  cardDescription={card.cardDescription}
-                  cardAttr1={card.cardAttr1}
-                  cardAttr2={card.cardAttr2}
-                  cardAttr3={card.cardAttr3}
-                  cardImage={card.cardImage}
-                  cardRare={card.cardRare}
-                  cardTrunfo={card.cardTrunfo}
-                />
+                <div key={card.cardName}>
+                  <Card
+                    cardName={card.cardName}
+                    cardDescription={card.cardDescription}
+                    cardAttr1={card.cardAttr1}
+                    cardAttr2={card.cardAttr2}
+                    cardAttr3={card.cardAttr3}
+                    cardImage={card.cardImage}
+                    cardRare={card.cardRare}
+                    cardTrunfo={card.cardTrunfo}
+                  />
+                  <button onClick={() => {}}>Remover Carta</button>
+                </div>
               );
             })}
           </div>
