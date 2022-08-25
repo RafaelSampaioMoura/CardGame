@@ -20,6 +20,7 @@ class App extends React.Component {
       trunfo: false,
       formValid: false,
       savedCards: [],
+      hasCards: false,
     };
   }
 
@@ -38,6 +39,7 @@ class App extends React.Component {
           imagem: '',
           raridade: '',
           trunfo: false,
+          hasCards: true,
         });
       }
     );
@@ -66,6 +68,7 @@ class App extends React.Component {
 
     return (
       <div>
+        {/* <pre>{JSON.stringify(this.state, undefined, 2)}</pre> */}
         <h1>Tryunfo</h1>
         <Form
           cardName={nome}
@@ -77,7 +80,7 @@ class App extends React.Component {
           cardRare={raridade}
           cardTrunfo={trunfo}
           onInputChange={this.handleChange}
-          onSaveButtonClick = {this.handleSubmit}
+          onSaveButtonClick={this.handleSubmit}
         />
         <Card
           cardName={nome}
@@ -89,6 +92,26 @@ class App extends React.Component {
           cardRare={raridade}
           cardTrunfo={trunfo}
         />
+        {this.state.hasCards && (
+          <div>
+            <h1>Cartas Salvas</h1>
+            {this.state.savedCards.map((card) => {
+              return (
+                <Card
+                  key={card.cardName}
+                  cardName={card.cardName}
+                  cardDescription={card.cardDescription}
+                  cardAttr1={card.cardAttr1}
+                  cardAttr2={card.cardAttr2}
+                  cardAttr3={card.cardAttr3}
+                  cardImage={card.cardImage}
+                  cardRare={card.cardRare}
+                  cardTrunfo={card.cardTrunfo}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
