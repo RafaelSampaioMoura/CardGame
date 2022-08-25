@@ -3,26 +3,6 @@ import PropTypes from 'prop-types';
 // import Form from './Form';
 
 export class Card extends Component {
-  //   constructor(props) {
-  //     super(props);
-
-  //     this.handleChange = this.handleChange.bind(this);
-  //     this.state = {
-  //       nome: '',
-  //       descrição: '',
-  //       atributoUm: '',
-  //       atributoDois: '',
-  //       atributoTres: '',
-  //     };
-  //   }
-
-  //   handleChange({ target }) {
-  //     const { name, value } = target;
-  //     this.setState(() => ({
-  //       [name]: value,
-  //     }));
-  //   }
-
   render() {
     const {
       cardName,
