@@ -36,6 +36,7 @@ git clone
 npm install
 npm start
 ```
+
 </ol>
 
 ### Troubleshooting
@@ -84,6 +85,7 @@ git clone
 npm install
 npm start
 ```
+
 </ol>
 
 ### Problemáticas
