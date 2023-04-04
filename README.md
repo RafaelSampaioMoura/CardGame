@@ -31,6 +31,7 @@ git clone
 ```
 
 <li>Install all the dependencies and start the app. By default, it listens to port 3000 on your machine:</li>
+  
 ```
 npm install
 npm start
@@ -78,6 +79,7 @@ git clone
 ```
 
 <li>Instale as dependências e inicie o aplicativo. Por padrão, ele irá ouvir a porta 3000 na sua máquina:</li>
+  
 ```
 npm install
 npm start
